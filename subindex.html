@@ -1,0 +1,648 @@
+  {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    /* زخارف خلفية */
+    .decorations {
+        position: absolute. fixed;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .float-item {
+        position: absolute;
+        font-size: 2rem;
+        animation: float 6s ease-in-out infinite;
+        opacity: 0.6;
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(15deg); }
+    }
+
+    /* حاوية اللعبة الرئيسية */
+    .game-container {
+        width: 95%;
+        max-width: 950px;
+        background: var(--card-bg);
+        border-radius: 25px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        min-height: 600px;
+        position: relative;
+        z-index: 10;
+        overflow: hidden;
+        border: 4px solid #fff;
+    }
+
+    @media (max-width: 768px) {
+        .game-container {
+            grid-template-columns: 1fr;
+        }
+        .characters-panel {
+            display: none !important;
+        }
+    }
+
+    /* لوحة الشخصيات الجانبية */
+    .characters-panel {
+        background: linear-gradient(180deg, #ffeaa7 0%, #fab1a0 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 10px;
+        border-left: 3px dashed rgba(255,255,255,0.6);
+        position: relative;
+    }
+
+    .mascot-box {
+        text-align: center;
+        background: rgba(255,255,255,0.85);
+        padding: 12px;
+        border-radius: 18px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+        width: 100%;
+    }
+
+    .mascot-avatar {
+        font-size: 3.5rem;
+        transition: transform 0.3s ease;
+    }
+
+    .mascot-speech {
+        font-size: 0.85rem;
+        color: var(--text-dark);
+        margin-top: 6px;
+        font-weight: 700;
+        min-height: 38px;
+    }
+
+    /* الصوت */
+    .sound-toggle {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        font-size: 1.2rem;
+        z-index: 20;
+    }
+
+    /* منطقة المحتوى */
+    .main-content {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .screen {
+        display: none;
+        width: 100%;
+        animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .screen.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* عناوين ونصوص */
+    h1 {
+        color: #d63031;
+        font-size: 2.2rem;
+        margin-bottom: 8px;
+        font-weight: 900;
+    }
+
+    h2 {
+        color: var(--secondary);
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+
+    p {
+        color: var(--text-dark);
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+    /* حقول الإدخال والأزرار */
+    .input-group {
+        margin: 20px 0;
+        width: 100%;
+        max-width: 350px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 15px 20px;
+        border: 3px solid #dfe6e9;
+        border-radius: 15px;
+        font-size: 1.2rem;
+        text-align: center;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus {
+[15/09/2026 12:28 ص] سِـೋـجِـೋـى 💛💭ۦ•: border-color: var(--secondary);
+    }
+
+    .btn {
+        background: linear-gradient(135deg, #ff7675 0%, #fd79a8 100%);
+        color: white;
+        border: none;
+        padding: 14px 35px;
+        font-size: 1.2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 700;
+        box-shadow: 0 8px 15px rgba(253, 121, 168, 0.4);
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 20px rgba(253, 121, 168, 0.6);
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        box-shadow: 0 8px 15px rgba(9, 132, 227, 0.3);
+    }
+
+    /* شريط التقدم والمعلومات العليا */
+    .top-bar {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f1f2f6;
+        padding: 10px 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 0.95rem;
+    }
+
+    .progress-bar-container {
+        width: 100%;
+        background: #dfe6e9;
+        height: 12px;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .progress-bar-fill {
+        background: var(--success);
+        height: 100%;
+        width: ٠%;
+        transition: width 0.4s ease;
+    }
+
+    /* بطاقة السؤال */
+    .question-card {
+        background: #fff8f6;
+        border: 2px dashed #ff7675;
+        padding: 20px;
+        border-radius: 18px;
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: #d63031;
+        margin-bottom: 25px;
+        width: 100%;
+    }
+
+    /* خيارات الإجابة */
+    .options-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        width: 100%;
+        max-width: 500px;
+        margin-bottom: 20px;
+    }
+
+    .option-btn {
+        background: white;
+        border: 3px solid #dfe6e9;
+        padding: 15px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: var(--text-dark);
+    }
+
+    .option-btn:hover:not(:disabled) {
+        border-color: var(--secondary);
+        background: #f0f3ff;
+        transform: scale(1.02);
+    }
+
+    .option-btn.correct {
+        background: var(--success) !important;
+        border-color: #27ae60 !important;
+        color: white !important;
+    }
+
+    .option-btn.wrong {
+        background: var(--error) !important;
+        border-color: #c0392b !important;
+        color: white !important;
+    }
+
+    .feedback-msg {
+        font-weight: 700;
+        font-size: 1.2rem;
+        min-height: 35px;
+        margin-top: 10px;
+    }
+
+    .stars-display {
+        font-size: 1.5rem;
+        color: #f1c40f;
+        margin-bottom: 15px;
+    }
+
+    .result-box {
+        background: #fff9e6;
+        border: 2px solid #ffeaa7;
+        padding: 20px;
+        border-radius: 15px;
+        width: 100%;
+        max-width: 450px;
+        margin-bottom: 20px;
+        line-height: 1.8;
+    }
+
+    .footer-credit {
+        font-size: 0.9rem;
+        color: #636e72;
+        margin-top: 15px;
+        font-weight: 700;
+    }
+</style>
+<!-- زر الصوت -->
+<button class="sound-toggle" id="soundBtn" onclick="toggleSound()" title="تشغيل/إيقاف الصوت">🔇</button>
+
+<!-- عناصر زخرفية -->
+<div class="decorations">
+    <div class="float-item" style="top: 10%; right: 5%;">⭐</div>
+    <div class="float-item" style="top: 80%; right: 10%; animation-delay: 2s;">✏️</div>
+    <div class="float-item" style="top: 15% ; left: 5%; animation-delay: 1s;">📚</div>
+    <div class="float-item" style="top: 75%; left: 8%; animation-delay: 3s;">🏆</div>
+</div>
+
+<div class="game-container">
+    <!-- لوحة الشخصيات الكرتونية الجانبية -->
+    <div class="characters-panel">
+        <div class="mascot-box">
+            <div class="mascot-avatar" id="boyMascot">👦🏻</div>
+            <div class="mascot-speech" id="boySpeech">مرحباً يا بطل!</div>
+ </div>
+        <div style="font-size: 3rem;">✨</div>
+        <div class="mascot-box">
+            <div class="mascot-avatar" id="girlMascot">👧🏻</div>
+            <div class="mascot-speech" id="girlSpeech">هيا نتعلم الطرح!</div>
+        </div>
+    </div>
+
+    <!-- منطقة اللعبة الأساسية -->
+    <div class="main-content">
+
+        <!-- 1. شاشة البداية -->
+        <div id="screen-welcome" class="screen active">
+            <h1>🌟 مغامرة حساب الطرح 🌟</h1>
+            <h2>للصف الثالث الابتدائي</h2>
+            <div class="input-group">
+                <input type="text" id="studentNameInput" placeholder="اكتب اسم الطالب ✏️">
+            </div>
+            <button class="btn" onclick="goToGreeting()">🚀 ابدأ المغامرة</button>
+        </div>
+
+        <!-- 2. شاشة الترحيب الشخصية -->
+        <div id="screen-greeting" class="screen">
+            <h1 id="greetingTitle">أهلاً بك يا بطل 👋</h1>
+            <p>هل أنت مستعد لخوض مغامرة حساب الطرح؟</p>
+            <div style="font-size: 4rem; margin: 15px 0;">🎯</div>
+            <button class="btn btn-secondary" onclick="startLevel(1)">ابدأ ▶️</button>
+        </div>
+
+        <!-- 3. شاشة اللعب (أسئلة المراحل) -->
+        <div id="screen-game" class="screen">
+            <div class="top-bar">
+                <span id="levelIndicator">🌱 المرحلة الأولى – البداية</span>
+                <span id="scoreIndicator">النجوم: ٠ ⭐</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div class="stars-display" id="questionStars">⭐⭐⭐⭐⭐</div>
+            <div class="question-card" id="questionText">ما ناتج ١٥ - ٧ = ؟</div>
+            <div class="options-grid" id="optionsContainer">
+                <!-- الخيارات تولد ديناميكياً -->
+            </div>
+            <div class="feedback-msg" id="feedbackMsg"></div>
+        </div>
+
+        <!-- 4. شاشة احتفال المرحلة / الانتقال -->
+        <div id="screen-stage-celebration" class="screen">
+            <div style="font-size: 5rem;">🏆</div>
+            <h1 id="stageTitle">أحسنت إكمال المرحلة!</h1>
+            <p id="stageDesc">استعد للمرحلة التالية بكل قوتك!</p>
+            <button class="btn" id="nextStageBtn" onclick="nextStageFlow()">المرحلة التالية 🚀</button>
+        </div>
+
+        <!-- 5. شاشة النتيجة النهائية -->
+        <div id="screen-final" class="screen">
+            <h1>🎉 النتيجة النهائية 🎉</h1>
+            <h2 id="finalStudentName">أحسنت يا بطل!</h2>
+            <div class="result-box">
+                <p>نتيجتك: <strong id="finalScoreNum">٨٥ / ١٠٠</strong></p>
+                <p>عدد الإجابات الصحيحة: <strong id="finalCorrectNum">١٧</strong></p>
+                <p>النجوم التي حصلت عليها: <span id="finalStarsDisplay">⭐⭐⭐⭐</span></p>
+                <p style="margin-top: 10px; color: #d63031;" id="finalEncouragement">🏆 رائع! أنت بطل الطرح!</p>
+            </div>
+            <button class="btn" onclick="restartGame()">🔄 العب مرة أخرى</button>
+        </div>
+
+        <!-- 6. شاشة نهاية اللعبة -->
+        <div id="screen-end" class="screen">
+            <h2 style="color: #6c5ce7; font-size: 1.6rem;">🌸 شكراً لمشاركتك في مغامرة حساب الطرح 🌸</h2>
+            <div style="font-size: 4rem; margin: 20px 0;">💖</div>
+            <div class="footer-credit">
+                إعداد وتنفيذ:<br>
+                المعلمة سجىٰ 👩‍🏫💗
+            </div>
+            <br>
+            <button class="btn btn-secondary" onclick="restartGame()">العودة للبداية</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // أرقام عربية هندية للتحويل الآمن عند العرض
+    const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    function toArabicNum(num) {
+        return String(num).split('').map(char => {
+            const n = parseInt(char);
+            return isNaN(n) ? char : arabicDigits[n];
+        }).join('');
+    }
+
+    // حالة اللعبة
+    let studentName = "";
+    let currentLevel = 1;
+    let currentQuestionIndex = 0;
+    let totalScore = 0;
+    let correctAnswersCount = 0;
+    let totalStarsEarned = 0;
+[15/09/2026 12:28 ص] سِـೋـجِـೋـى 💛💭ۦ•: let soundEnabled = false;
+
+    // بنك الأسئلة بالترتيب والمواصفات المطلوبة
+    const levelsData = {
+        1: [
+            { q: "ما ناتج ١٥ - ٧ = ؟", opts: [٦, ٧, ٨, ٩], ans: ٨ },
+            { q: "ما ناتج ١٢ - ٥ = ؟", opts: [٦, ٧, ٨, ٩], ans: ٧ },
+            { q: "ما ناتج ١٨ - ٩ = ؟", opts: [٨, ٩, ١٠, ٧], ans: ٩ },
+            { q: "ما ناتج ١٤ - ٦ = ؟", opts: [٧, ٨, ٩, ٦], ans: ٨ },
+            { q: "ما ناتج ١١ - ٣ = ؟", opts: [٧, ٨, ٩, ١٠], ans: ٨ }
+        ],
+        2: [
+            { q: "أكمل الناتج:\n٤٥ - ١٨ = ؟", opts: [٢٥, ٢٧, ٢٨, ٣٠], ans: ٢٧ },
+            { q: "ما ناتج:\n٥٢ - ٢٤ = ؟", opts: [٢٦, ٢٨, ٣٠, ٢٤], ans: ٢٨ },
+            { q: "أكمل الناتج:\n٦٣ - ١٩ = ؟", opts: [٤٤, ٤٢, ٤٥, ٤٠], ans: ٤٤ },
+            { q: "ما ناتج:\n٣٧ - ١٩ = ؟", opts: [١٨, ١٧, ١٩, ٢٠], ans: ١٨ },
+            { q: "ما ناتج:\n٨١ - ٤٥ = ؟", opts: [٣٥, ٣٦, ٣٨, ٣٤], ans: ٣٦ },
+            { q: "أكمل الناتج:\n٩٠ - ٥٣ = ؟", opts: [٣٧, ٣٥, ٣٩, ٣٨], ans: ٣٧ },
+            { q: "ما ناتج:\n٧٤ - ٢٩ = ؟", opts: [٤٥, ٤٣, ٤٧, ٤٦], ans: ٤٥ }
+        ],
+        3: [
+            { q: "ما ناتج:\n١٢٥ - ٤٧ = ؟", opts: [٧٨, ٨٢, ٨٨, ٩٢], ans: ٧٨ },
+            { q: "ما ناتج:\n٢٥٠ - ١٢٥ = ؟", opts: [١١٥, ١٢٥, ١٣٥, ١٢٠], ans: ١٢٥ },
+            { q: "ما ناتج:\n٣١٠ - ٨٥ = ؟", opts: [٢٢٥, ٢٣٥, ٢١٥, ٢٤٥], ans: ٢٢٥ },
+            { q: "ما ناتج:\n٤٥٠ - ١٧٥ = ؟", opts: [٢٧٥, ٢٦٥, ٢٨٥, ٢٥٥], ans: ٢٧٥ },
+            { q: "ما ناتج:\n٥١٢ - ٢٣٤ = ؟", opts: [٢٧٨, ٢٦٨, ٢٨٨, ٢٥٨], ans: ٢٧٨ },
+            { q: "ما ناتج:\n٦٢٠ - ٣٤٥ = ؟", opts: [٢٧٥, ٢٨٥, ٢٦٥, ٢٩٥], ans: ٢٧٥ },
+            { q: "ما ناتج:\n٧٣٠ - ٤١٥ = ؟", opts: [٣١٥, ٣٢٥, ٣٠٥, ٣٣٥], ans: ٣١٥ },
+            { q: "ما ناتج:\n٨٠٠ - ٤٨٩ = ؟", opts: [٣١١, ٣٢١, ٣٠١, ٣١٥], ans: ٣١١ },
+            { q: "ما ناتج:\n٩١٥ - ٥٤٧ = ؟", opts: [٣٦٨, ٣٥٨, ٣٧٨, ٣٤٨], ans: ٣٦٨ },
+            { q: "ما ناتج:\n١٠٠٠ - ٧٣٥ = ؟", opts: [٢٦٥, ٢٧٥, ٢٥٥, ٢٨٥], ans: ٢٦٥ }
+        ]
+    };
+
+    let currentQuestionsList = [];
+
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function goToGreeting() {
+        const inputVal = document.getElementById('studentNameInput').value.trim();
+        studentName = inputVal !== "" ? inputVal : "يا بطل";
+        document.getElementById('greetingTitle').innerText = `أهلاً بك يا ${studentName} 👋`;
+        setMascots("😊", "أهلاً بك يا بطل!", "🤩", "جاهز للمغامرة؟");
+        showScreen('screen-greeting');
+    }
+
+    function startLevel(lvl) {
+        currentLevel = lvl;
+        currentQuestionIndex = 0;
+        // خلط الأسئلة عشوائياً لكل محاولة
+        currentQuestionsList = [...levelsData[lvl]].sort(() => Math.random() - 0.5);
+        updateLevelIndicator();
+        loadQuestion();
+        showScreen('screen-game');
+    }
+
+    function updateLevelIndicator() {
+        const names = {
+            1: "🌱 المرحلة الأولى – البداية",
+            2: "🚀 المرحلة الثانية – التحدي",
+            3: "🏆 المرحلة الثالثة – البطل"
+        };
+        document.getElementById('levelIndicator').innerText = names[currentLevel];
+        document.getElementById('scoreIndicator').innerText = transform: translateY(0px) rotate(0deg); }
+  
+    }
+
+    function loadQuestion() {
+        const qData = currentQuestionsList[currentQuestionIndex];
+        document.getElementById('questionText').innerHTML = qData.q.replace(/\n/g, '<br>');
+        
+        // شريط التقدم
+        const totalQ = currentQuestionsList.length;
+        const progressPct = ((currentQuestionIndex) / totalQ) * ١٠٠;
+        document.getElementById('progressBar').style.width =ف خلفية */
+    .dec
+
+        // نجوم المرحلة الحالية
+        const remainingStars = totalQ - currentQuestionIndex;
+        document.getElementById('questionStars').innerText = '⭐'.repeat(Math.min(remainingStars, 5));
+
+        // خلط الخيارات
+        const shuffledOpts = [...qData.opts].sort(() => Math.random() - 0.5);
+        const container = document.getElementById('optionsContainer');
+        container.innerHTML = '';
+[15/09/2026 12:28 ص] سِـೋـجِـೋـى 💛💭ۦ•: shuffledOpts.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = toArabicNum(opt);
+            btn.onclick = () => checkAnswer(opt, qData.ans, btn);
+            container.appendChild(btn);
+        });
+
+        document.getElementById('feedbackMsg').innerText = '';
+    }
+
+    function checkAnswer(selected, correct, btnElem) {
+        // تعطيل الأزرار مؤقتاً
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        const positiveMsgs = ["⭐ إجابة صحيحة!", "👏 أحسنت يا بطل!", "🎉 ممتاز!"];
+        const negativeMsgs = ["💪 حاول مرة أخرى!", "🌟 فكّر جيداً!", "👏 لا تستسلم!"];
+
+        const feedbackEl = document.getElementById('feedbackMsg');
+
+        if (selected === correct) {
+            btnElem.classList.add('correct');
+            feedbackEl.innerText = positiveMsgs[Math.floor(Math.random() * positiveMsgs.length)];
+            feedbackEl.style.color = '#27ae60';
+            correctAnswersCount++;
+            totalStarsEarned++;
+            totalScore += currentLevel * 5;
+            setMascots("🎉", "رائع! استمر يا بطل ⭐", "🤩", "إجابة ذكية!");
+        } else {
+            btnElem.classList.add('wrong');
+            // إظهار الصحيح
+            buttons.forEach(b => {
+                // مقارنة رقمية
+                const valNum = parseInt(b.innerText);
+                // تحويل بسيط أو مطابقة
+            });
+            feedbackEl.innerText = negativeMsgs[Math.floor(Math.random() * negativeMsgs.length)];
+            feedbackEl.style.color = '#c0392b';
+            setMascots("💪", "لا تقلق، حاول في التوالي!", "🤔", "ركز قليلاً!");
+        }
+
+        updateLevelIndicator();
+
+        setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuestionsList.length) {
+                loadQuestion();
+            } else {
+                finishStageFlow();
+            }
+        }, 1200);
+    }
+
+    function finishStageFlow() {
+        if (currentLevel < 3) {
+            document.getElementById('stageTitle').innerText = 40px;
+        height: 40px;
+        cursor: pointer;
+            document.getElementById('stageDesc').innerText = "أنت تتطور بسرعة، هيا للمرحلة التالية!";
+            showScreen('screen-stage-celebration');
+        } else {
+            finishAllGame();
+        }
+    }
+
+    function nextStageFlow() {
+        if (currentLevel < 3) {
+            startLevel(currentLevel + 1);
+        }
+    }
+
+    function finishAllGame() {
+        // حساب النتيجة النهائية من 100 بناءً على عدد الأسئلة الإجمالي (22 سؤال)
+        const finalScoreVal = Math.round((correctAnswersCount / 22) * ١٠٠) || ٨٥;
+        document.getElementById('finalStudentName').innerText =}
+    .float-item {
+        
+        document.getElementById('finalScoreNum').innerText =      padding: 0;
+        font-family: 
+        document.getElementById('finalCorrectNum').innerText = toArabicNum(correctAnswersCount);
+        
+        let starsStr = "⭐⭐⭐⭐";
+        if (finalScoreVal >= ٩٠) starsStr = "⭐⭐⭐⭐⭐";
+        else if (finalScoreVal >= ٧٠) starsStr = "⭐⭐⭐⭐";
+        else if (finalScoreVal >= ٥٠) starsStr = "⭐⭐⭐";
+        else starsStr = "⭐⭐";
+        document.getElementById('finalStarsDisplay').innerText = starsStr;
+
+        let encText = "💪 لا تستسلم، حاول مرة أخرى!";
+        if (finalScoreVal >= ٩٠) encText = "🏆 رائع! أنت بطل الطرح!";
+        else if (finalScoreVal >= ٧٠) encText = "🌟 ممتاز! استمر بالتدريب!";
+        else if (finalScoreVal >= ٥٠) encText = "👏 جيد جداً، يمكنك أن تصبح أفضل!";
+
+        document.getElementById('finalEncouragement').innerText = encText;
+        setMascots("👑", "أنت بطل البطلات!", "🏆", "نتيجة رائعة!");
+        showScreen('screen-final');
+        setTimeout(() => {
+            showScreen('screen-end');
+        }, 7000);
+    }
+
+    function setMascots(boyEmoji, boyText, girlEmoji, girlText) {
+        document.getElementById('boyMascot').innerText = boyEmoji;
+        document.getElementById('boySpeech').innerText = boyText;
+[15/09/2026 12:28 ص] سِـೋـجِـೋـى 💛💭ۦ•: document.getElementById('girlMascot').innerText = girlEmoji;
+        document.getElementById('girlSpeech').innerText = girlText;
+    }
+
+    function restartGame() {
+        totalScore = 0;
+        correctAnswersCount = 0;
+        totalStarsEarned = 0;
+        currentLevel = 1;
+        setMascots("👦🏻", "مرحباً يا بطل!", "👧🏻", "هيا نتعلم الطرح!");
+        showScreen('screen-welcome');
+    }
+
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+        document.getElementById('soundBtn').innerText = soundEnabled ? '🔊' : '🔇';
+    }
+</script>
