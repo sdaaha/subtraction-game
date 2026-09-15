@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مغامرة حساب الجمع - الصف الثالث الابتدائي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --card-bg: #ffffff;
+            --text-dark: #2d3436;
+            --secondary: #0984e3;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --primary: #ff7675;
+            --bg-gradient: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            direction: rtl;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            max-width: 900px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                order: 2;
+            }
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .sidebar {
+            background: #eccc68;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        .avatar-box {
+            background: white;
+            border-radius: 16px;
+            padding: 15px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .avatar-box img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        h1 {
+            color: #d63031;
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            color: #0984e3;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin: 20px 0;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #dfe6e9;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff7675;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff7675, #d63031);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(214, 48, 49, 0.3);
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(214, 48, 49, 0.4);
+        }
+
+        .math-card {
+            background: #f1f2f6;
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 400px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .equation {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #2d3436;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #dfe6e9;
+            padding: 12px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #2d3436;
+        }
+
+        .option-btn:hover {
+            border-color: #ff7675;
+            background: #ffeaa7;
+        }
+
+        .score-board {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #dfe6e9;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #2ecc71;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .stars {
+            font-size: 2rem;
+            color: #f1c40f;
+            margin: 10px 0;
+        }
+
+        .feedback-pop {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .feedback-pop.correct {
+            background: #2ecc71;
+            opacity: 1;
+        }
+
+        .feedback-pop.wrong {
+            background: #e74c3c;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="feedback" class="feedback-pop"></div>
+
+    <div class="container">
+        
+        <!-- الشريط الجانبي للشخصيات -->
+        <div class="sidebar">
+            <div class="avatar-box">
+                <svg width="80" height="80" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" fill="#ffeaa7"/>
+                    <circle cx="35" cy="40" r="6" fill="#2d3436"/>
+                    <circle cx="65" cy="40" r="6" fill="#2d3436"/>
+                    <path d="M 35 65 Q 50 80 65 65" stroke="#2d3436" stroke-width="5" fill="none"/>
+                </svg>
+                <div style="font-weight:700; margin-top:5px;">مرحباً يا بطل!</div>
+            </div>
+            
+            <div style="font-size: 2rem;">⭐ ➕ ✨</div>
+
+            <div class="avatar-box">
+                <svg width="80" height="80" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" fill="#ff7675"/>
+                    <circle cx="35" cy="40" r="6" fill="#fff"/>
+                    <circle cx="65" cy="40" r="6" fill="#fff"/>
+                    <path d="M 35 60 Q 50 75 65 60" stroke="#fff" stroke-width="5" fill="none"/>
+                </svg>
+                <div style="font-weight:700; margin-top:5px;">هيا نتعلم الجمع!</div>
+            </div>
+        </div>
+
+        <!-- المنطقة الرئيسية للمحتوى -->
+        <div class="main-content">
+
+            <!-- شاشة البداية -->
+            <div id="start-screen" class="screen active">
+                <h1>🌟 مغامرة حساب الجمع 🌟</h1>
+                <div class="subtitle">للصف الثالث الابتدائي</div>
+                
+                <div class="input-group">
+                    <input type="text" id="player-name" placeholder="اكتب اسم الطالب ✏️">
+                </div>
+
+                <button class="btn" onclick="startGame()">ابدأ المغامرة 🚀</button>
+            </div>
+
+            <!-- شاشة اللعب -->
+            <div id="game-screen" class="screen">
+                <div class="score-board">
+                    <span>اللاعب: <strong id="display-name"></strong></span>
+                    <span>النقاط: <strong id="score">0</strong> ⭐</span>
+                    <span>المرحلة: <strong id="level">1</strong></span>
+                </div>
+
+                <div class="progress-bar">
+                    <div id="progress" class="progress-fill"></div>
+                </div>
+
+                <div class="math-card">
+                    <div id="equation" class="equation">5 + 3 = ?</div>
+                    <div id="options" class="options-grid">
+                        <!-- الخيارات ستولد بالسوفت وير -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- شاشة النهاية -->
+            <div id="end-screen" class="screen">
+                <h1>🎉 أحسنت يا بطل! 🎉</h1>
+                <div class="stars">⭐⭐⭐</div>
+                <p style="font-size: 1.3rem;">لقد أكملت جميع مراحل الجمع بنجاح!</p>
+                <p style="font-size: 1.1rem; color: #636e72;">مجموع نقاطك: <strong id="final-score">0</strong></p>
+                <button class="btn" onclick="resetGame()">العب مرة أخرى 🔄</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // بنك أسئلة الجمع للصف الثالث الابتدائي (ثلاث مراحل متدرجة)
+        const questions = [
+            // المرحلة الأولى: جمع أعداد بسيطة
+            { num1: 12, num2: 15, ans: 27, level: 1 },
+            { num1: 24, num2: 13, ans: 37, level: 1 },
+            { num1: 30, num2: 45, ans: 75, level: 1 },
+            { num1: 52, num2: 21, ans: 73, level: 1 },
+
+            // المرحلة الثانية: جمع مئات وبدون إعادة تجميع / مع إعادة تجميع خفيفة
+            { num1: 120, num2: 230, ans: 350, level: 2 },
+            { num1: 345, num2: 124, ans: 469, level: 2 },
+            { num1: 250, num2: 150, ans: 400, level: 2 },
+            { num1: 415, num2: 238, ans: 653, level: 2 },
+
+            // المرحلة الثالثة: جمع أعداد من 3 مراتب مع إعادة التجميع
+            { num1: 567, num2: 243, ans: 810, level: 3 },
+            { num1: 684, num2: 159, ans: 843, level: 3 },
+            { num1: 378, num2: 456, ans: 834, level: 3 },
+            { num1: 529, num2: 383, ans: 912, level: 3 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let playerName = "";
+
+        function startGame() {
+            const nameInput = document.getElementById('player-name').value;
+            if (nameInput.trim() === "") {
+                alert("لطفاً اكتب اسمك لنبدأ اللعب!");
+                return;
+            }
+            playerName = nameInput;
+            document.getElementById('display-name').innerText = playerName;
+            
+            document.getElementById('start-screen').classList.remove('active');
+            document.getElementById('game-screen').classList.add('active');
+            
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('equation').innerText = `${q.num1} + ${q.num2} = ?`;
+            document.getElementById('level').innerText = q.level;
+            
+            // تحديث شريط التقدم
+            const progressPercent = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progressPercent}%`;
+
+            // توليد خيارات الإجابة
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+
+            let choices = [q.ans];
+            while(choices.length < 4) {
+                let wrongAns = q.ans + (Math.floor(Math.random() * 20) - 10);
+                if(wrongAns > 0 && !choices.includes(wrongAns)) {
+                    choices.push(wrongAns);
+                }
+            }
+            
+            // خلط الخيارات عشوائياً
+            choices.sort(() => Math.random() - 0.5);
+
+            choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = choice;
+                btn.onclick = () => checkAnswer(choice, q.ans);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            const feedback = document.getElementById('feedback');
+            
+            if (selected === correct) {
+                score += 10;
+                document.getElementById('score').innerText = score;
+                feedback.innerText = "إجابة صحيحة! أحسنت ✨";
+                feedback.className = "feedback-pop correct";
+            } else {
+                feedback.innerText = `إجابة خاطئة! الناتج الصحيح هو ${correct} ❌`;
+                feedback.className = "feedback-pop wrong";
+            }
+
+            setTimeout(() => {
+                feedback.className = "feedback-pop";
+            }, 1500);
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showEndScreen();
+            }
+        }
+
+        function showEndScreen() {
+            document.getElementById('game-screen').classList.remove('active');
+            document.getElementById('end-screen').classList.add('active');
+            document.getElementById('final-score').innerText = score;
+        }
+
+        function resetGame() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').innerText = score;
+            document.getElementById('end-screen').classList.remove('active');
+            document.getElementById('start-screen').classList.add('active');
+        }
+    </script>
+</body>
+</html>
