@@ -164,6 +164,8 @@
         min-height: 25px;
     }
 </style>
+
+
 <div class="game-container">
     
     <!-- شاشة البداية -->
@@ -178,7 +180,7 @@
     </div>
 
     <!-- شاشة مراحل اللعبة -->
- <div id="game-screen">
+    <div id="game-screen">
         <div class="game-header">
             <span id="stage-indicator">المرحلة: 1 / 6</span>
             <span id="score-indicator">النقاط: 0</span>
@@ -207,7 +209,7 @@
         <div class="char-avatar">🏆</div>
         <h1>أبطال عالم الحيوانات!</h1>
         <p class="subtitle" id="final-score-text">لقد أكملت جميع المراحل بنجاح باهر.</p>
-        <div class="signature">إعداد وتنفيذ: ENG Saja 👩‍🏫💗</div>
+        <div class="signature">إعداد وتنفيذ: المعلمة سجى 👩‍🏫💗</div>
         <br>
         <button class="btn-start" onclick="restartGame()">إعادة اللعب من جديد 🔄</button>
     </div>
@@ -268,7 +270,7 @@
         document.getElementById('feedback-msg').textContent = "";
         let stage = stages[currentStageIndex];
         document.getElementById('stage-indicator').textContent = `المرحلة: ${currentStageIndex + 1} / ${stages.length}`;
-        document.getElementById('score-indicator').textContent =ground: linear-gradi
+        document.getElementById('score-indicator').textContent = `النقاط: ${score}`;
         document.getElementById('question-text').textContent = stage.question;
 
         if (stage.type === "mcq") {
@@ -277,14 +279,11 @@
             
             let optionsHtml = '';
             stage.options.forEach(opt => {
-                optionsHtml +=   border-radius: 25px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        
+                optionsHtml += `<button class="option-btn" onclick="checkMCQAnswer('${opt}')">${opt}</button>`;
             });
             document.getElementById('options-container').innerHTML = optionsHtml;
         } else {
-            document.
- getElementById('options-container').style.display = 'none';
+            document.getElementById('options-container').style.display = 'none';
             document.getElementById('text-input-section').style.display = 'flex';
             document.getElementById('user-answer-input').value = "";
         }
@@ -318,8 +317,7 @@
             setTimeout(nextStage, 1500);
         } else {
             feedback.style.color = "#d63031";
-            feedback.textContent =       border-radius: 50px;
-        cur
+            feedback.textContent = `الإجابة الصحيحة هي: ${stage.answer}`;
             setTimeout(nextStage, 2000);
         }
     }
@@ -336,10 +334,7 @@
     function showEndScreen() {
         document.getElementById('game-screen').style.display = 'none';
         document.getElementById('end-screen').style.display = 'block';
-        document.getElementById('final-score-text').textContent =30px;
-        text-align: center;
-        position: relative;
- 
+        document.getElementById('final-score-text').textContent = `لقد أنهيت جميع المراحل وحصلت على مجموع نقاط: ${score} نقطة!`;
     }
 
     function restartGame() {
